@@ -28,6 +28,10 @@ public class User {
         this.roles = new HashSet<>();
     }
 
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
