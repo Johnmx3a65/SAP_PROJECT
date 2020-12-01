@@ -17,6 +17,8 @@ public class User {
 
     private Set<Role> roles;
 
+    private Set<Product> products;
+
     public User() {
     }
 
@@ -26,6 +28,7 @@ public class User {
         this.password = password;
 
         this.roles = new HashSet<>();
+        this.products = new HashSet<>();
     }
 
     public void addRole(Role role){
@@ -78,5 +81,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @OneToMany(mappedBy = "author")
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }
