@@ -87,4 +87,9 @@ public class Product {
     public void setAuthor(User author) {
         this.author = author;
     }
+
+    @Transient
+    public String getSummary(){
+        return this.description.substring(0, this.getDescription().length()/2) + "...";
+    }
 }
