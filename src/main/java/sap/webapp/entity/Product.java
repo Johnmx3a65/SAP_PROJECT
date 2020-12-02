@@ -16,18 +16,18 @@ public class Product {
 
     private String description;
 
-    private byte[] image;
+    private byte[] photo;
 
     private User author;
 
     public Product() {
     }
 
-    public Product(Integer price, String title, String description, byte[] image, User author) {
+    public Product(Integer price, String title, String description, byte[] photo, User author) {
         this.price = price;
         this.title = title;
         this.description = description;
-        this.image = image;
+        this.photo = photo;
         this.author = author;
     }
 
@@ -70,12 +70,12 @@ public class Product {
 
 
     @Column(nullable = false)
-    public byte[] getImage() {
-        return image;
+    public byte[] getPhoto() {
+        return photo;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @ManyToOne
