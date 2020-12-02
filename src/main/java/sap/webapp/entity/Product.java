@@ -1,7 +1,12 @@
 package sap.webapp.entity;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Base64;
 
 
 @Entity
@@ -18,17 +23,20 @@ public class Product {
 
     private byte[] photo;
 
+    private String photoBase64;
+
     private User author;
 
     public Product() {
     }
 
-    public Product(Integer price, String title, String description, byte[] photo, User author) {
+    public Product(Integer price, String title, String description, MultipartFile photo, User author) throws IOException {
         this.price = price;
         this.title = title;
         this.description = description;
-        this.photo = photo;
+        this.photo = photo.getBytes();
         this.author = author;
+        this.photoBase64 = Base64.getEncoder().encodeToString(this.photo);
     }
 
     @Id
@@ -76,6 +84,15 @@ public class Product {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    @Column(nullable = false)
+    public String getPhotoBase64() {
+        return photoBase64;
+    }
+
+    public void setPhotoBase64(String photoBase64) {
+        this.photoBase64 = photoBase64;
     }
 
     @ManyToOne

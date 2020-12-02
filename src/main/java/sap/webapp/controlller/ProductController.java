@@ -14,6 +14,8 @@ import sap.webapp.entity.User;
 import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.UserRepository;
 
+import java.io.IOException;
+
 @Controller
 public class ProductController {
     @Autowired
@@ -31,7 +33,7 @@ public class ProductController {
 
     @PostMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
-    public String createProcess(ProductBindingModel productBindingModel){
+    public String createProcess(ProductBindingModel productBindingModel) throws IOException {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User userEntity = this.userRepository.findByEmail(user.getUsername());

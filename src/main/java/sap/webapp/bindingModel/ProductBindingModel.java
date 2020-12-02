@@ -1,6 +1,7 @@
 package sap.webapp.bindingModel;
 
 import com.sun.istack.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ProductBindingModel {
     @NotNull
@@ -13,7 +14,7 @@ public class ProductBindingModel {
     private Integer price;
 
     @NotNull
-    private byte[] photo;
+    private MultipartFile photo;
 
     public String getTitle() {
         return title;
@@ -39,11 +40,11 @@ public class ProductBindingModel {
         this.price = price;
     }
 
-    public byte[] getPhoto() {
+    public MultipartFile getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(MultipartFile photo) {
         this.photo = photo;
     }
 
