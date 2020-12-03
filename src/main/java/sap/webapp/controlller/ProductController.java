@@ -16,6 +16,7 @@ import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.UserRepository;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @Controller
 public class ProductController {
@@ -59,5 +60,38 @@ public class ProductController {
 
         return "base-layout";
     }
+
+    @GetMapping("product/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String edit(Model model, @PathVariable Integer id){
+        if(!this.productRepository.existsById(id)){
+            return "redirect:/";
+        }
+        Product product = this.productRepository.getOne(id);
+
+        model.addAttribute("product", product);
+        model.addAttribute("view", "product/edit");
+
+        return "base-layout";
+    }
+
+    @PostMapping("product/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String editProcess(ProductBindingModel productBindingModel, @PathVariable Integer id) throws IOException {
+        if(!this.productRepository.existsById(id)){
+            return "redirect:/";
+        }
+
+        Product product = this.productRepository.getOne(id);
+        product.setTitle(productBindingModel.getTitle());
+        product.setPrice(productBindingModel.getPrice());
+        product.setPhoto(productBindingModel.getPhoto().getBytes());
+        product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
+        product.setDescription(productBindingModel.getDescription());
+        this.productRepository.saveAndFlush(product);
+
+        return "redirect:/product/" + product.getId();
+    }
+
 
 }
