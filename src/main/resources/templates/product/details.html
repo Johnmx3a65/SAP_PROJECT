@@ -17,7 +17,7 @@
 
                         <div class="pull-right">
 
-                            <th:block sec:authorize="isAuthenticated()">
+                            <th:block sec:authorize="isAuthenticated()" th:if="${user.isAdmin() OR user.isAuthor(product)}">
                                 <a class="btn btn-success btn-xs" th:href="@{/product/edit/{id}(id = ${product.id})}">Edit</a>
                                 <a class="btn btn-danger btn-xs" th:href="@{/product/delete/{id}(id = ${product.id})}">Delete</a>
 

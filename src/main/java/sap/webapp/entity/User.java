@@ -2,6 +2,7 @@ package sap.webapp.entity;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -90,5 +91,15 @@ public class User {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    @Transient
+    public boolean isAdmin(){
+        return this.getRoles().stream().allMatch(role -> role.getName().equals("ROLE_ADMIN"));
+    }
+
+    @Transient
+    public boolean isAuthor(Product product){
+        return Objects.equals(this.getId(), product.getAuthor().getId());
     }
 }

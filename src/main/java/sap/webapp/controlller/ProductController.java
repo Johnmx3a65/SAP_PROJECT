@@ -2,6 +2,7 @@ package sap.webapp.controlller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,13 @@ public class ProductController {
             return "redirect:/";
         }
 
+        if(!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
+            UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User entityUser = this.userRepository.findByEmail(principal.getUsername());
+
+            model.addAttribute("user", entityUser);
+        }
+
         Product product = this.productRepository.getOne(id);
 
         model.addAttribute("product", product);
@@ -69,6 +77,10 @@ public class ProductController {
         }
         Product product = this.productRepository.getOne(id);
 
+        if(!isUserAuthorOrAdmin(product)){
+            return "redirect:/product/" + id;
+        }
+
         model.addAttribute("product", product);
         model.addAttribute("view", "product/edit");
 
@@ -83,6 +95,11 @@ public class ProductController {
         }
 
         Product product = this.productRepository.getOne(id);
+
+        if(!isUserAuthorOrAdmin(product)){
+            return "redirect:/product/" + id;
+        }
+
         product.setTitle(productBindingModel.getTitle());
         product.setPrice(productBindingModel.getPrice());
         if (!productBindingModel.getPhoto().isEmpty()){
@@ -105,6 +122,10 @@ public class ProductController {
 
         Product product = this.productRepository.getOne(id);
 
+        if(!isUserAuthorOrAdmin(product)){
+            return "redirect:/product/" + id;
+        }
+
         model.addAttribute("product", product);
         model.addAttribute("view", "product/delete");
 
@@ -121,9 +142,21 @@ public class ProductController {
 
         Product product = this.productRepository.getOne(id);
 
+        if(!isUserAuthorOrAdmin(product)){
+            return "redirect:/product/" + id;
+        }
+
         this.productRepository.delete(product);
 
         return "redirect:/";
+    }
+
+    private boolean isUserAuthorOrAdmin(Product product){
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User userEntity = this.userRepository.findByEmail(user.getUsername());
+
+        return userEntity.isAdmin() || userEntity.isAuthor(product);
     }
 
 }
