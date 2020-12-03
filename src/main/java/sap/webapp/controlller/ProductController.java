@@ -95,5 +95,35 @@ public class ProductController {
         return "redirect:/product/" + product.getId();
     }
 
+    @GetMapping("product/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String delete(Model model, @PathVariable Integer id){
+
+        if(!this.productRepository.existsById(id)){
+            return "redirect:/";
+        }
+
+        Product product = this.productRepository.getOne(id);
+
+        model.addAttribute("product", product);
+        model.addAttribute("view", "product/delete");
+
+        return "base-layout";
+    }
+
+    @PostMapping("product/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String deleteProcess(@PathVariable Integer id){
+
+        if(!this.productRepository.existsById(id)){
+            return "redirect:/";
+        }
+
+        Product product = this.productRepository.getOne(id);
+
+        this.productRepository.delete(product);
+
+        return "redirect:/";
+    }
 
 }
