@@ -8,23 +8,21 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="product_title">Product Title</label>
                         <div class="col-sm-4 ">
-                            <input type="text" class="form-control" id="product_title" placeholder="Product Title"
-                                   name="title"/>
+                            <input type="text" class="form-control" id="product_title" placeholder="Product Title" name="title" required/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="product_price">Price</label>
                         <div class="col-sm-4 ">
-                            <input type="number" min="1" step="any" class="form-control" id="product_price" placeholder="Price"
-                                   name="price"/>
+                            <input type="number" min="1" step="any" class="form-control" id="product_price" placeholder="Price" name="price" required/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="product_photo">Photo</label>
                         <div class="col-sm-4 ">
-                            <input type="file"  class="form-control" id="product_photo" name="photo"/>
+                            <input type="file"  class="form-control" id="product_photo" multiple accept="image/*,image/jpeg" name="photo" required/>
                         </div>
                     </div>
 

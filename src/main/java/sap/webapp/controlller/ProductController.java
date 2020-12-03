@@ -85,8 +85,10 @@ public class ProductController {
         Product product = this.productRepository.getOne(id);
         product.setTitle(productBindingModel.getTitle());
         product.setPrice(productBindingModel.getPrice());
-        product.setPhoto(productBindingModel.getPhoto().getBytes());
-        product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
+        if (!productBindingModel.getPhoto().isEmpty()){
+            product.setPhoto(productBindingModel.getPhoto().getBytes());
+            product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
+        }
         product.setDescription(productBindingModel.getDescription());
         this.productRepository.saveAndFlush(product);
 
