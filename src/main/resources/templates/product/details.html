@@ -17,8 +17,11 @@
 
                         <div class="pull-right">
 
-                            <a class="btn btn-success btn-xs" th:href="@{/product/edit/{id}(id = ${product.id})}">Edit</a>
-                            <a class="btn btn-danger btn-xs" th:href="@{/product/delete/{id}(id = ${product.id})}">Delete</a>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <a class="btn btn-success btn-xs" th:href="@{/product/edit/{id}(id = ${product.id})}">Edit</a>
+                                <a class="btn btn-danger btn-xs" th:href="@{/product/delete/{id}(id = ${product.id})}">Delete</a>
+
+                            </th:block>
 
                             <a class="btn btn-default btn-xs" th:href="@{/}">back &raquo;</a>
                         </div>
