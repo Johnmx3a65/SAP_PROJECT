@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import sap.webapp.bindingModel.ProductBindingModel;
 import sap.webapp.entity.Product;
@@ -43,6 +44,20 @@ public class ProductController {
         this.productRepository.saveAndFlush(productEntity);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/product/{id}")
+    public String details(Model model, @PathVariable Integer id){
+        if(!this.productRepository.existsById(id)){
+            return "redirect:/";
+        }
+
+        Product product = this.productRepository.getOne(id);
+
+        model.addAttribute("product", product);
+        model.addAttribute("view", "product/details");
+
+        return "base-layout";
     }
 
 }

@@ -1,0 +1,30 @@
+<main xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12">
+                <product>
+                    <header>
+                        <img id="preview-image" class="round" th:src="@{'data:image/jpeg;base64,'+${product.photoBase64}}" alt=""/>
+                        <h2 th:text="${product.title}"></h2>
+                        <p class="price" th:text="${product.price}"></p>
+                    </header>
+
+                    <p th:text="${product.description}"> </p>
+
+                    <small class="author" th:text="${product.author.fullName}"></small>
+
+                    <footer>
+
+                        <div class="pull-right">
+
+                            <a class="btn btn-success btn-xs" th:href="@{/product/edit/{id}(id = ${product.id})}">Edit</a>
+                            <a class="btn btn-danger btn-xs" th:href="@{/product/delete/{id}(id = ${product.id})}">Delete</a>
+
+                            <a class="btn btn-default btn-xs" th:href="@{/}">back &raquo;</a>
+                        </div>
+                    </footer>
+                </product>
+            </div>
+        </div>
+    </div>
+</main>
