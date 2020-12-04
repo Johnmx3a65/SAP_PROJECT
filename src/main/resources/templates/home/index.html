@@ -1,4 +1,4 @@
-<main>
+<main xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container body-content">
         <div class="row">
             <th:block th:each="product : ${products}">
@@ -7,7 +7,7 @@
                         <header>
                             <img id="preview-image" class="round" th:src="@{'data:image/jpeg;base64,'+${product.photoBase64}}" alt=""/>
                             <h2 th:text="${product.title}"></h2>
-                            <p class="price" th:text="${product.price}"></p>
+                            <p th:text="${product.price + ' lv'}"></p>
                         </header>
 
                         <p th:text="${product.summary}"></p>
