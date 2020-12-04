@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
+import sap.webapp.bindingModel.UserBindingModel;
 import sap.webapp.bindingModel.UserEditBindingModel;
 import sap.webapp.entity.Product;
 import sap.webapp.entity.Role;
@@ -30,6 +31,34 @@ public class AdminUserController {
     private RoleRepository roleRepository;
     @Autowired
     private ProductRepository productRepository;
+
+    @GetMapping("/register")
+    public String register(Model model){
+        model.addAttribute("view", "admin/user/register");
+
+        return "base-layout";
+    }
+
+    @PostMapping("/register")
+    public String registerProcess(UserBindingModel userBindingModel){
+        if(!userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
+            return "redirect:/admin/users/register";
+        }
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        User user = new User(userBindingModel.getEmail(),
+                userBindingModel.getFullName(),
+                bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
+
+        Role userRole = this.roleRepository.findByName("ROLE_USER");
+
+        user.addRole(userRole);
+
+        this.userRepository.saveAndFlush(user);
+
+        return "redirect:/admin/users/";
+    }
 
     @GetMapping("/")
     public String listUsers(Model model){
