@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
 import sap.webapp.bindingModel.UserEditBindingModel;
+import sap.webapp.entity.Product;
 import sap.webapp.entity.Role;
 import sap.webapp.entity.User;
 import sap.webapp.repository.ProductRepository;
@@ -28,7 +29,7 @@ public class AdminUserController {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
-    private RoleRepository repository;
+    private ProductRepository productRepository;
 
     @GetMapping("/")
     public String listUsers(Model model){
@@ -76,12 +77,42 @@ public class AdminUserController {
         Set<Role> roles = new HashSet<>();
 
         for (Integer roleId : userBindingModel.getRoles()){
-            roles.add(this.repository.getOne(roleId));
+            roles.add(this.roleRepository.getOne(roleId));
         }
 
         user.setRoles(roles);
 
         this.userRepository.saveAndFlush(user);
+
+        return "redirect:/admin/users/";
+    }
+
+    @GetMapping("delete/{id}")
+    public String delete(Model model, @PathVariable Integer id){
+        if(!this.userRepository.existsById(id)){
+            return "redirect:/admin/users/";
+        }
+
+        User user = this.userRepository.getOne(id);
+
+        model.addAttribute("user", user);
+        model.addAttribute("view", "admin/user/delete");
+
+        return "base-layout";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteProcess(@PathVariable Integer id){
+        if(!this.userRepository.existsById(id)){
+            return "redirect:/admin/users/";
+        }
+        User user = this.userRepository.getOne(id);
+
+        for(Product product : user.getProducts()){
+            this.productRepository.delete(product);
+        }
+
+        this.userRepository.delete(user);
 
         return "redirect:/admin/users/";
     }
