@@ -95,12 +95,21 @@ public class ProductController {
         }
         Product product = this.productRepository.getOne(id);
 
-        if(!isUserAuthorOrAdmin(product)){
+        if(!isAdmin()){
             return "redirect:/product/" + id;
         }
 
         List<Category> categories = this.categoryRepository.findAll();
 
+        List<User> users = new ArrayList<>();
+
+        for(User user : this.userRepository.findAll()){
+            if(!user.getCompanyName().equals("admin")){
+                users.add(user);
+            }
+        }
+
+        model.addAttribute("users", users);
         model.addAttribute("categories", categories);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/edit");
@@ -117,9 +126,10 @@ public class ProductController {
 
         Product product = this.productRepository.getOne(id);
         Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
+        User user = this.userRepository.getOne(productBindingModel.getUserId());
 
 
-        if(!isUserAuthorOrAdmin(product)){
+        if(!isAdmin()){
             return "redirect:/product/" + id;
         }
 
@@ -129,6 +139,7 @@ public class ProductController {
             product.setPhoto(productBindingModel.getPhoto().getBytes());
             product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
         }
+        product.setAuthor(user);
         product.setDescription(productBindingModel.getDescription());
         product.setCategory(category);
 
@@ -147,7 +158,7 @@ public class ProductController {
 
         Product product = this.productRepository.getOne(id);
 
-        if(!isUserAuthorOrAdmin(product)){
+        if(!isAdmin()){
             return "redirect:/product/" + id;
         }
 
@@ -167,7 +178,7 @@ public class ProductController {
 
         Product product = this.productRepository.getOne(id);
 
-        if(!isUserAuthorOrAdmin(product)){
+        if(!isAdmin()){
             return "redirect:/product/" + id;
         }
 
@@ -176,12 +187,12 @@ public class ProductController {
         return "redirect:/";
     }
 
-    private boolean isUserAuthorOrAdmin(Product product){
+    private boolean isAdmin(){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User userEntity = this.userRepository.findByEmail(user.getUsername());
 
-        return userEntity.isAdmin() || userEntity.isAuthor(product);
+        return userEntity.isAdmin();
     }
 
 }

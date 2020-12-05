@@ -34,9 +34,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="article_category">Category</label>
+                        <label class="col-sm-4 control-label" for="product_companyName">Company</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="article_category" name="categoryId">
+                            <select class="form-control" id="product_companyName" name="userId">
+                                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.companyName}"  th:selected="${user.id == product.author.id}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="product_category">Category</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="product_category" name="categoryId">
                                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"  th:selected="${category.id == product.category.id}"></option>
                             </select>
                         </div>
