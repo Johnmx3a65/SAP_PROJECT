@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import sap.webapp.bindingModel.ProductBindingModel;
+import sap.webapp.entity.Category;
 import sap.webapp.entity.Product;
 import sap.webapp.entity.User;
+import sap.webapp.repository.CategoryRepository;
 import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 @Controller
 public class ProductController {
@@ -25,10 +28,15 @@ public class ProductController {
     private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     public String create(Model model){
+        List<Category> categories = this.categoryRepository.findAll();
+
+        model.addAttribute("categories", categories);
         model.addAttribute("view", "product/create");
 
         return "base-layout";
@@ -40,8 +48,9 @@ public class ProductController {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User userEntity = this.userRepository.findByEmail(user.getUsername());
+        Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
 
-        Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity);
+        Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity, category);
 
         this.productRepository.saveAndFlush(productEntity);
 
@@ -81,6 +90,9 @@ public class ProductController {
             return "redirect:/product/" + id;
         }
 
+        List<Category> categories = this.categoryRepository.findAll();
+
+        model.addAttribute("categories", categories);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/edit");
 
@@ -95,6 +107,8 @@ public class ProductController {
         }
 
         Product product = this.productRepository.getOne(id);
+        Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
+
 
         if(!isUserAuthorOrAdmin(product)){
             return "redirect:/product/" + id;
@@ -107,6 +121,8 @@ public class ProductController {
             product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
         }
         product.setDescription(productBindingModel.getDescription());
+        product.setCategory(category);
+
         this.productRepository.saveAndFlush(product);
 
         return "redirect:/product/" + product.getId();

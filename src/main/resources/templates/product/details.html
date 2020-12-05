@@ -6,7 +6,7 @@
                     <header>
                         <img id="preview-image" class="round" th:src="@{'data:image/jpeg;base64,'+${product.photoBase64}}" alt=""/>
                         <h2 th:text="${product.title}"></h2>
-                        <p  th:text="${product.price + 'лв.'}"></p>
+                        <p  th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT') + 'лв.'}"></p>
                     </header>
 
                     <p th:text="${product.description}"> </p>

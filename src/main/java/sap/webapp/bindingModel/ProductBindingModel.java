@@ -11,10 +11,20 @@ public class ProductBindingModel {
     private String description;
 
     @NotNull
-    private Integer price;
+    private Double price;
 
     @NotNull
     private MultipartFile photo;
+
+    private Integer categoryId;
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public String getTitle() {
         return title;
@@ -32,11 +42,11 @@ public class ProductBindingModel {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="product_price">Price</label>
                         <div class="col-sm-4 ">
-                            <input type="number" min="1" step="any" class="form-control" id="product_price" placeholder="Price" name="price" th:value="${product.price}" required/>
+                            <input type="number" min="0.01" step="0.01" class="form-control" id="product_price" placeholder="Price" name="price" th:value="${product.price}" required/>
                         </div>
                     </div>
 
@@ -32,6 +32,16 @@
                             <textarea class="form-control" rows="6" id="product_description" name="description" th:field="${product.description}"></textarea>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="article_category">Category</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="article_category" name="categoryId">
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"  th:selected="${category.id == product.category.id}"></option>
+                            </select>
+                        </div>
+                    </div>
+
 
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-4">

@@ -1,0 +1,29 @@
+<main xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container body-content">
+        <h1>Category - <th:block th:text="${category.name}"></th:block></h1>
+        <div class="row">
+            <th:block th:each="product : ${products}">
+                <div class="col-md-6">
+                    <product>
+                        <header>
+                            <img id="preview-image" class="round" th:src="@{'data:image/jpeg;base64,'+${product.photoBase64}}" alt=""/>
+                            <h2 th:text="${product.title}"></h2>
+                            <p th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT') + 'лв.'}"></p>
+                        </header>
+
+                        <p th:text="${product.summary}"></p>
+
+                        <small class="author" th:text="${product.author.fullName}"></small>
+
+                        <footer>
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-xs"
+                                   th:href="@{/product/{id}(id=${product.id})}">Read more &raquo;</a>
+                            </div>
+                        </footer>
+                    </product>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</main>

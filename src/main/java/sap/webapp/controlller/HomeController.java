@@ -4,24 +4,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sap.webapp.entity.Category;
 import sap.webapp.entity.Product;
+import sap.webapp.repository.CategoryRepository;
 import sap.webapp.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class HomeController {
     @Autowired
-    private ProductRepository productRepository;
+    private CategoryRepository categoryRepository;
 
 
     @GetMapping("/")
     public String index(Model model){
-        List<Product> products = this.productRepository.findAll();
+        List<Category> categories = this.categoryRepository.findAll();
 
         model.addAttribute("view", "home/index");
+        model.addAttribute("categories", categories);
+        return "base-layout";
+    }
+
+    @GetMapping("/category/{id}")
+    public String listProducts(Model model, @PathVariable Integer id){
+        if(!this.categoryRepository.existsById(id)){
+            return "redirect:/";
+        }
+        Category category = this.categoryRepository.getOne(id);
+        Set<Product> products = category.getProducts();
+
         model.addAttribute("products", products);
+        model.addAttribute("category", category);
+        model.addAttribute("view", "home/list-products");
+
         return "base-layout";
     }
 

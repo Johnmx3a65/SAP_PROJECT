@@ -15,7 +15,7 @@ public class Product {
 
     private Integer id;
 
-    private Integer price;
+    private Double price;
 
     private String title;
 
@@ -27,16 +27,19 @@ public class Product {
 
     private User author;
 
+    private Category category;
+
     public Product() {
     }
 
-    public Product(Integer price, String title, String description, MultipartFile photo, User author) throws IOException {
+    public Product(Double price, String title, String description, MultipartFile photo, User author, Category category) throws IOException {
         this.price = price;
         this.title = title;
         this.description = description;
         this.photo = photo.getBytes();
         this.author = author;
         this.photoBase64 = Base64.getEncoder().encodeToString(this.photo);
+        this.category = category;
     }
 
     @Id
@@ -50,11 +53,11 @@ public class Product {
     }
 
     @Column(nullable = false)
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -103,6 +106,16 @@ public class Product {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "categoryId")
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Transient
