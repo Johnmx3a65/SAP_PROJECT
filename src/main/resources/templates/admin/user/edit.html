@@ -22,6 +22,14 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="col-sm-4 control-label" for="user_companyName">Company Name</label>
+                        <div class="col-sm-4 ">
+                            <input class="form-control" type="text" id="user_companyName" placeholder="Company Name"
+                                   name="companyName" required="required" th:value="${user.companyName}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-sm-4 control-label" for="user_password_first">Password</label>
                         <div class="col-sm-4">
                             <input type="password" class="form-control" id="user_password_first" placeholder="Password"

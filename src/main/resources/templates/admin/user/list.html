@@ -10,6 +10,7 @@
                     <tr>
                         <th>#</th>
                         <th>Full Name</th>
+                        <th>Company Name</th>
                         <th>Email</th>
                         <th>Actions</th>
                     </tr>
@@ -19,6 +20,7 @@
                         <tr th:class="${user.isAdmin() ? 'info' : null}">
                             <td th:text="${user.id}"></td>
                             <td th:text="${user.fullName}"></td>
+                            <td th:text="${user.companyName}"></td>
                             <td th:text="${user.email}"></td>
                             <td>
                                 <a th:href="@{/admin/users/edit/{id}(id=${user.id})}">Edit</a>

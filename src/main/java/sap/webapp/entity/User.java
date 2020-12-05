@@ -14,6 +14,8 @@ public class User {
 
     private String fullName;
 
+    private String companyName;
+
     private String password;
 
     private Set<Role> roles;
@@ -23,9 +25,10 @@ public class User {
     public User() {
     }
 
-    public User(String email, String fullName, String password) {
+    public User(String email, String fullName, String companyName, String password) {
         this.email = email;
         this.fullName = fullName;
+        this.companyName = companyName;
         this.password = password;
 
         this.roles = new HashSet<>();
@@ -63,6 +66,15 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    @Column(name = "companyName", nullable = false)
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     @Column(name = "password", length = 60, nullable = false)

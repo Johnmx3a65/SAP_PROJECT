@@ -11,6 +11,9 @@ public class UserBindingModel {
     private String fullName;
 
     @NotNull
+    private String companyName;
+
+    @NotNull
     private String password;
 
     @NotNull
@@ -46,5 +49,13 @@ public class UserBindingModel {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

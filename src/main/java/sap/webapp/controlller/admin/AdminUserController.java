@@ -49,6 +49,7 @@ public class AdminUserController {
 
         User user = new User(userBindingModel.getEmail(),
                 userBindingModel.getFullName(),
+                userBindingModel.getCompanyName(),
                 bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
 
         Role userRole = this.roleRepository.findByName("ROLE_USER");
@@ -101,6 +102,7 @@ public class AdminUserController {
             }
         }
         user.setFullName(userBindingModel.getFullName());
+        user.setCompanyName(userBindingModel.getCompanyName());
         user.setEmail(userBindingModel.getEmail());
 
         Set<Role> roles = new HashSet<>();
