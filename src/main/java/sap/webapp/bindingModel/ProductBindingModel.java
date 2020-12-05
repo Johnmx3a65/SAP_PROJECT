@@ -18,6 +18,16 @@ public class ProductBindingModel {
 
     private Integer categoryId;
 
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public Integer getCategoryId() {
         return categoryId;
     }

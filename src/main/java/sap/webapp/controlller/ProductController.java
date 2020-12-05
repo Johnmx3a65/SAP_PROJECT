@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.UserRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -35,7 +37,15 @@ public class ProductController {
     @PreAuthorize("isAuthenticated()")
     public String create(Model model){
         List<Category> categories = this.categoryRepository.findAll();
+        List<User> users = new ArrayList<>();
 
+        for(User user : this.userRepository.findAll()){
+            if(!user.getCompanyName().equals("admin")){
+                users.add(user);
+            }
+        }
+
+        model.addAttribute("users", users);
         model.addAttribute("categories", categories);
         model.addAttribute("view", "product/create");
 
@@ -45,9 +55,8 @@ public class ProductController {
     @PostMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     public String createProcess(ProductBindingModel productBindingModel) throws IOException {
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User userEntity = this.userRepository.findByEmail(user.getUsername());
+        User userEntity = this.userRepository.getOne(productBindingModel.getUserId());
         Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
 
         Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity, category);

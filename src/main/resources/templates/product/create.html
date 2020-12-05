@@ -34,9 +34,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="article_category">Category</label>
+                        <label class="col-sm-4 control-label" for="product_company">Company</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="article_category" name="categoryId" required = "required">
+                            <select class="form-control" id="product_company" name="userId" required = "required">
+                                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.companyName}" ></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="product_category">Category</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="product_category" name="categoryId" required = "required">
                                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" ></option>
                             </select>
                         </div>
