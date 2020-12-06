@@ -8,14 +8,21 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="product_title">Product Title</label>
                         <div class="col-sm-4 ">
-                            <input type="text" class="form-control" id="product_title" placeholder="Product Title" name="title" required/>
+                            <input type="text" class="form-control" id="product_title" placeholder="Product Title" name="title" required="required"/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="product_price">Price</label>
                         <div class="col-sm-4 ">
-                            <input type="number" min="0.01" step="0.01" class="form-control" id="product_price" placeholder="Price" name="price" required/>
+                            <input type="number" min="0.01" step="0.01" class="form-control" id="product_price" placeholder="Price" name="price" required="required"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="product_count">Count</label>
+                        <div class="col-sm-4 ">
+                            <input type="number" min="1" step="1" class="form-control" id="product_count" placeholder="Count" name="currentCount" required="required"/>
                         </div>
                     </div>
 

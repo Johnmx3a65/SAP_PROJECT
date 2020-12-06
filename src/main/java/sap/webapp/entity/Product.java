@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Set;
 
 
 @Entity
@@ -15,6 +16,8 @@ public class Product {
     private Integer id;
 
     private Double price;
+
+    private Integer currentCount;
 
     private String title;
 
@@ -28,11 +31,14 @@ public class Product {
 
     private Category category;
 
+
+
     public Product() {
     }
 
-    public Product(Double price, String title, String description, MultipartFile photo, User author, Category category) throws IOException {
+    public Product(Double price,Integer currentCount, String title, String description, MultipartFile photo, User author, Category category) throws IOException {
         this.price = price;
+        this.currentCount = currentCount;
         this.title = title;
         this.description = description;
         this.photo = photo.getBytes();
@@ -58,6 +64,15 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    @Column(nullable = false)
+    public Integer getCurrentCount() {
+        return currentCount;
+    }
+
+    public void setCurrentCount(Integer currentCount) {
+        this.currentCount = currentCount;
     }
 
     @Column(nullable = false)

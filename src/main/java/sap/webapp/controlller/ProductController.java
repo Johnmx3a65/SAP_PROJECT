@@ -12,17 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import sap.webapp.bindingModel.ProductBindingModel;
+import sap.webapp.bindingModel.SellBindingModel;
 import sap.webapp.entity.Category;
+import sap.webapp.entity.Order;
 import sap.webapp.entity.Product;
 import sap.webapp.entity.User;
 import sap.webapp.repository.CategoryRepository;
+import sap.webapp.repository.OrderRepository;
 import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.UserRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ProductController {
@@ -32,6 +33,8 @@ public class ProductController {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
@@ -59,7 +62,7 @@ public class ProductController {
         User userEntity = this.userRepository.getOne(productBindingModel.getUserId());
         Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
 
-        Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity, category);
+        Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getCurrentCount(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity, category);
 
         this.productRepository.saveAndFlush(productEntity);
 
@@ -142,6 +145,7 @@ public class ProductController {
         product.setAuthor(user);
         product.setDescription(productBindingModel.getDescription());
         product.setCategory(category);
+        product.setCurrentCount(productBindingModel.getCurrentCount());
 
         this.productRepository.saveAndFlush(product);
 
@@ -185,6 +189,39 @@ public class ProductController {
         this.productRepository.delete(product);
 
         return "redirect:/";
+    }
+
+    @GetMapping("product/sell/{id}")
+    public String sell(Model model, @PathVariable Integer id){
+
+        if(!this.productRepository.existsById(id)){
+            return "redirect:/";
+        }
+
+        Product product = this.productRepository.getOne(id);
+
+        model.addAttribute("product", product);
+        model.addAttribute("view", "product/sell");
+
+        return "base-layout";
+    }
+
+    @PostMapping("product/sell/{id}")
+    public String sellProcess(SellBindingModel sellBindingModel, @PathVariable Integer id){
+
+        if(!this.productRepository.existsById(id)){
+            return "redirect:/";
+        }
+
+        Product product = this.productRepository.getOne(id);
+        product.setCurrentCount(product.getCurrentCount()-sellBindingModel.getSellCount());
+
+        Order order = new Order(product.getAuthor(), product, sellBindingModel.getSellCount(), Calendar.getInstance(),  sellBindingModel.getDestination());
+
+        this.productRepository.saveAndFlush(product);
+        this.orderRepository.saveAndFlush(order);
+
+        return "redirect:/product/" + id;
     }
 
     private boolean isAdmin(){

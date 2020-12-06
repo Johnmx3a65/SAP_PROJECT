@@ -14,11 +14,15 @@ public class ProductBindingModel {
     private Double price;
 
     @NotNull
+    private Integer currentCount;
+
+    @NotNull
     private MultipartFile photo;
 
     private Integer categoryId;
 
     private Integer userId;
+
 
     public Integer getUserId() {
         return userId;
@@ -58,6 +62,14 @@ public class ProductBindingModel {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getCurrentCount() {
+        return currentCount;
+    }
+
+    public void setCurrentCount(Integer currentCount) {
+        this.currentCount = currentCount;
     }
 
     public MultipartFile getPhoto() {
