@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -214,9 +213,9 @@ public class ProductController {
         }
 
         Product product = this.productRepository.getOne(id);
-        product.setCurrentCount(product.getCurrentCount()-sellBindingModel.getSellCount());
+        product.setCurrentCount(product.getCurrentCount()-sellBindingModel.getQuantity());
 
-        Order order = new Order(product.getAuthor(), product, sellBindingModel.getSellCount(), Calendar.getInstance(),  sellBindingModel.getDestination());
+        Order order = new Order(product.getAuthor(), product, sellBindingModel.getQuantity(), Calendar.getInstance(),  sellBindingModel.getDestination(), sellBindingModel.getPhone());
 
         this.productRepository.saveAndFlush(product);
         this.orderRepository.saveAndFlush(order);

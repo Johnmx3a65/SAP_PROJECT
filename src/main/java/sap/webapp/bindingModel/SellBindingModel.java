@@ -4,16 +4,18 @@ import com.sun.istack.NotNull;
 
 public class SellBindingModel {
     @NotNull
-    private Integer sellCount;
+    private Integer quantity;
     @NotNull
     private String destination;
+    @NotNull
+    private String phone;
 
-    public Integer getSellCount() {
-        return sellCount;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setSellCount(Integer sellCount) {
-        this.sellCount = sellCount;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getDestination() {
@@ -22,5 +24,13 @@ public class SellBindingModel {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

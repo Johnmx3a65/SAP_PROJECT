@@ -13,21 +13,24 @@ public class Order {
 
     private Product product;
 
-    private Integer count;
+    private Integer quantity;
 
     private Calendar orderDate;
 
     private String destination;
 
+    private String customerNumber;
+
     public Order() {
     }
 
-    public Order(User company, Product product, Integer count, Calendar orderDate, String destination) {
+    public Order(User company, Product product, Integer quantity, Calendar orderDate, String destination, String customerNumber) {
         this.company =  company;
         this.product = product;
-        this.count = count;
+        this.quantity = quantity;
         this.orderDate = orderDate;
         this.destination = destination;
+        this.customerNumber = customerNumber;
     }
 
     @Id
@@ -61,12 +64,12 @@ public class Order {
     }
 
     @Column(nullable = false)
-    public Integer getCount() {
-        return count;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Temporal(TemporalType.DATE)
@@ -86,5 +89,14 @@ public class Order {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    @Column(nullable = false)
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 }
