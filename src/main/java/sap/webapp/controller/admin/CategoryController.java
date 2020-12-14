@@ -1,6 +1,5 @@
-package sap.webapp.controlller.admin;
+package sap.webapp.controller.admin;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
-import sap.webapp.bindingModel.CategoryBindingModel;
+import sap.webapp.binding.model.CategoryBindingModel;
 import sap.webapp.entity.Category;
 import sap.webapp.entity.Product;
 import sap.webapp.repository.CategoryRepository;

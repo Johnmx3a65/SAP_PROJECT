@@ -1,4 +1,4 @@
-package sap.webapp.bindingModel;
+package sap.webapp.binding.model;
 
 public class CategoryBindingModel {
     private String name;

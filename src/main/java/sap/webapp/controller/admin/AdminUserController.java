@@ -1,4 +1,4 @@
-package sap.webapp.controlller.admin;
+package sap.webapp.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
-import sap.webapp.bindingModel.UserBindingModel;
-import sap.webapp.bindingModel.UserEditBindingModel;
+import sap.webapp.binding.model.UserBindingModel;
+import sap.webapp.binding.model.UserEditBindingModel;
 import sap.webapp.entity.Product;
 import sap.webapp.entity.Role;
 import sap.webapp.entity.User;

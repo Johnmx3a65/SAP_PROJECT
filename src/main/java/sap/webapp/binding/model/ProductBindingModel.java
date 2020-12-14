@@ -1,6 +1,6 @@
-package sap.webapp.bindingModel;
+package sap.webapp.binding.model;
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProductBindingModel {

@@ -1,7 +1,7 @@
-package sap.webapp.bindingModel;
+package sap.webapp.binding.model;
 
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 public class UserBindingModel {
     @NotNull

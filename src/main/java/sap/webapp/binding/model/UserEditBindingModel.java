@@ -1,4 +1,4 @@
-package sap.webapp.bindingModel;
+package sap.webapp.binding.model;
 
 import java.util.ArrayList;
 import java.util.List;

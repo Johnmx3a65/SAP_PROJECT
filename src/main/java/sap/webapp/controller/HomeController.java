@@ -1,4 +1,4 @@
-package sap.webapp.controlller;
+package sap.webapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sap.webapp.entity.Category;
 import sap.webapp.entity.Product;
 import sap.webapp.repository.CategoryRepository;
-import sap.webapp.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Set;
