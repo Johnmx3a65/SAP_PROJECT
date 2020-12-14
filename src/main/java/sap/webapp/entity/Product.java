@@ -94,7 +94,7 @@ public class Product {
     }
 
 
-    @Column(nullable = false)
+    @Transient
     public byte[] getPhoto() {
         return photo;
     }
