@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
 import sap.webapp.binding.model.CategoryBindingModel;
-import sap.webapp.entity.Category;
-import sap.webapp.entity.Product;
-import sap.webapp.repository.CategoryRepository;
-import sap.webapp.repository.ProductRepository;
+import sap.webapp.db.entity.Category;
+import sap.webapp.db.entity.Product;
+import sap.webapp.db.repository.CategoryRepository;
+import sap.webapp.db.repository.ProductRepository;
 
 import java.util.Comparator;
 import java.util.List;

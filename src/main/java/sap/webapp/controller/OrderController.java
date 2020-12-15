@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import sap.webapp.binding.model.SellBindingModel;
-import sap.webapp.entity.Order;
-import sap.webapp.entity.Product;
-import sap.webapp.repository.CategoryRepository;
-import sap.webapp.repository.OrderRepository;
-import sap.webapp.repository.ProductRepository;
-import sap.webapp.repository.UserRepository;
+import sap.webapp.db.entity.Order;
+import sap.webapp.db.entity.Product;
+import sap.webapp.db.repository.OrderRepository;
+import sap.webapp.db.repository.ProductRepository;
+
 
 import java.util.Calendar;
 

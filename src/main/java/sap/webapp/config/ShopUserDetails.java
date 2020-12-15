@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
-import sap.webapp.entity.User;
+import sap.webapp.db.entity.User;
 
 import java.util.ArrayList;
 import java.util.Collection;

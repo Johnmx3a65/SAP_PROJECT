@@ -6,9 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sap.webapp.entity.Category;
-import sap.webapp.entity.Product;
-import sap.webapp.repository.CategoryRepository;
+import sap.webapp.db.entity.Category;
+import sap.webapp.db.entity.Product;
+import sap.webapp.db.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.Set;

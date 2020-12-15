@@ -1,4 +1,4 @@
-package sap.webapp.entity;
+package sap.webapp.db.entity;
 
 import org.springframework.util.StringUtils;
 
