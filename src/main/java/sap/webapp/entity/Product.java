@@ -23,15 +23,11 @@ public class Product {
 
     private String description;
 
-    private byte[] photo;
-
     private String photoBase64;
 
     private User author;
 
     private Category category;
-
-
 
     public Product() {
     }
@@ -41,9 +37,8 @@ public class Product {
         this.currentCount = currentCount;
         this.title = title;
         this.description = description;
-        this.photo = photo.getBytes();
         this.author = author;
-        this.photoBase64 = Base64.getEncoder().encodeToString(this.photo);
+        this.photoBase64 = Base64.getEncoder().encodeToString(photo.getBytes());
         this.category = category;
     }
 
@@ -91,16 +86,6 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-
-    @Transient
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
     }
 
     @Column(nullable = false)

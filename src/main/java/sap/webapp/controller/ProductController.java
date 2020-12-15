@@ -138,7 +138,6 @@ public class ProductController {
         product.setTitle(productBindingModel.getTitle());
         product.setPrice(productBindingModel.getPrice());
         if (!productBindingModel.getPhoto().isEmpty()){
-            product.setPhoto(productBindingModel.getPhoto().getBytes());
             product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
         }
         product.setAuthor(user);
