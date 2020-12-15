@@ -32,8 +32,6 @@ public class ProductController {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private OrderRepository orderRepository;
 
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
@@ -187,39 +185,6 @@ public class ProductController {
         this.productRepository.delete(product);
 
         return "redirect:/";
-    }
-
-    @GetMapping("product/sell/{id}")
-    public String sell(Model model, @PathVariable Integer id){
-
-        if(!this.productRepository.existsById(id)){
-            return "redirect:/";
-        }
-
-        Product product = this.productRepository.getOne(id);
-
-        model.addAttribute("product", product);
-        model.addAttribute("view", "product/sell");
-
-        return "base-layout";
-    }
-
-    @PostMapping("product/sell/{id}")
-    public String sellProcess(SellBindingModel sellBindingModel, @PathVariable Integer id){
-
-        if(!this.productRepository.existsById(id)){
-            return "redirect:/";
-        }
-
-        Product product = this.productRepository.getOne(id);
-        product.setCurrentCount(product.getCurrentCount()-sellBindingModel.getQuantity());
-
-        Order order = new Order(product.getAuthor(), product, sellBindingModel.getQuantity(), Calendar.getInstance(),  sellBindingModel.getDestination(), sellBindingModel.getPhone());
-
-        this.productRepository.saveAndFlush(product);
-        this.orderRepository.saveAndFlush(order);
-
-        return "redirect:/product/" + id;
     }
 
     private boolean isAdmin(){
