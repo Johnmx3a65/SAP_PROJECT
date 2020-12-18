@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
 import sap.webapp.binding.model.UserBindingModel;
 import sap.webapp.binding.model.UserEditBindingModel;
-import sap.webapp.entity.Product;
-import sap.webapp.entity.Role;
-import sap.webapp.entity.User;
-import sap.webapp.repository.ProductRepository;
-import sap.webapp.repository.RoleRepository;
-import sap.webapp.repository.UserRepository;
+import sap.webapp.db.entity.Product;
+import sap.webapp.db.entity.Role;
+import sap.webapp.db.entity.User;
+import sap.webapp.db.repository.ProductRepository;
+import sap.webapp.db.repository.RoleRepository;
+import sap.webapp.db.repository.UserRepository;
 
 import java.util.HashSet;
 import java.util.List;

@@ -1,4 +1,4 @@
-package sap.webapp.entity;
+package sap.webapp.db.entity;
 
 
 import org.springframework.web.multipart.MultipartFile;
@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Set;
 
 
 @Entity

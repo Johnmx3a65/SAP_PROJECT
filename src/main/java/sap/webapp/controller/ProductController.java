@@ -11,18 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import sap.webapp.binding.model.ProductBindingModel;
-import sap.webapp.binding.model.SellBindingModel;
-import sap.webapp.entity.Category;
-import sap.webapp.entity.Order;
-import sap.webapp.entity.Product;
-import sap.webapp.entity.User;
-import sap.webapp.repository.CategoryRepository;
-import sap.webapp.repository.OrderRepository;
-import sap.webapp.repository.ProductRepository;
-import sap.webapp.repository.UserRepository;
+import sap.webapp.db.entity.Category;
+import sap.webapp.db.entity.Product;
+import sap.webapp.db.entity.User;
+import sap.webapp.db.repository.CategoryRepository;
+import sap.webapp.db.repository.ProductRepository;
+import sap.webapp.db.repository.UserRepository;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 @Controller
 public class ProductController {

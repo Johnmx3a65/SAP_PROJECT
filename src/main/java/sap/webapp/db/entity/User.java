@@ -1,4 +1,4 @@
-package sap.webapp.entity;
+package sap.webapp.db.entity;
 
 import javax.persistence.*;
 import java.util.HashSet;
