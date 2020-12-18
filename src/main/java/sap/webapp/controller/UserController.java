@@ -28,6 +28,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model){
+        model.addAttribute("isErrorLogIn", false);
         model.addAttribute("view", "user/login");
 
         return "base-layout";
@@ -42,6 +43,15 @@ public class UserController {
         }
 
         return "redirect:/login?logout";
+    }
+
+    @RequestMapping(value = "/login_error", method = RequestMethod.GET)
+    public String logoutPage(Model model){
+
+        model.addAttribute("isErrorLogIn", true);
+        model.addAttribute("view", "user/login");
+
+        return "base-layout";
     }
 
     @GetMapping("/profile")
