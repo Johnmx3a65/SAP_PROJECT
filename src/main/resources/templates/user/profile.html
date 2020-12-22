@@ -8,16 +8,17 @@
                     <tr>
                         <th>#</th>
                         <th>Product Name</th>
+                        <th>Product Category</th>
                         <th>Product Price</th>
                         <th>Sold Quantity</th>
                         <th>Total Profit</th>
                     </tr>
                     </thead>
                     <tbody>
-
                     <tr th:each="order : ${orders}">
                         <td th:text="${order.product.id}"></td>
                         <td th:text="${order.product.title}"></td>
+                        <td th:text="${order.product.category.name}"></td>
                         <td th:text="${order.product.price}"></td>
                         <td th:text="${order.quantity}"></td>
                         <td th:text="${order.quantity * order.product.price}"></td>
