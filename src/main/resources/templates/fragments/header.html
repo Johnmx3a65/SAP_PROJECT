@@ -24,7 +24,7 @@
                             Create Product
                         </a>
                     </li>
-                    <li sec:authorize="isAuthenticated()">
+                    <li sec:authorize="hasRole('USER')">
                         <a th:href="@{/profile}">
                             My Profile
                         </a>
