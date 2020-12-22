@@ -1,12 +1,29 @@
-<main>
-    <div class="container body-container">
-        <div class="row">
-            <div id="main" class="col-sm-9">
-                <div>
-                    <span th:text="${user.email}"></span>
-                    <br/>
-                    <span th:text="${user.fullName}"></span>
-                </div>
+<main xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container body-content">
+        <div class="well">
+            <h2>All sales</h2>
+            <div class="row">
+                <table class="table table-striped table-hover ">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Product Price</th>
+                        <th>Sold Quantity</th>
+                        <th>Total Profit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.product.id}"></td>
+                        <td th:text="${order.product.title}"></td>
+                        <td th:text="${order.product.price}"></td>
+                        <td th:text="${order.quantity}"></td>
+                        <td th:text="${order.quantity * order.product.price}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

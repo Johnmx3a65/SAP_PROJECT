@@ -11,12 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import sap.webapp.entity.Order;
 import sap.webapp.entity.User;
+import sap.webapp.repository.OrderRepository;
 import sap.webapp.repository.RoleRepository;
 import sap.webapp.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -25,6 +28,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @GetMapping("/login")
     public String login(Model model){
@@ -61,7 +67,9 @@ public class UserController {
 
         User user = this.userRepository.findByEmail(principal.getUsername());
 
-        model.addAttribute("user", user);
+        List<Order> orders = this.orderRepository.findAllByCompany(user);
+
+        model.addAttribute("orders", orders);
         model.addAttribute("view", "user/profile");
 
         return "base-layout";

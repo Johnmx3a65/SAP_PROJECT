@@ -4,7 +4,6 @@
             <form class="form-horizontal" th:action="@{/login}" method="post">
                 <fieldset>
                     <legend>Login</legend>
-
                     <div class="form-group">
                         <label th:class="${(isErrorLogIn)? 'col-sm-4 control-label text-danger' : 'col-sm-4 control-label' }" for="user_email">Email</label>
                         <div class="col-sm-4">
@@ -18,7 +17,6 @@
                             </div>
                         </th:block>
                     </div>
-
                     <div class="form-group">
                         <label th:class="${(isErrorLogIn)? 'col-sm-4 control-label text-danger' : 'col-sm-4 control-label' }" for="password">Password</label>
                         <div class="col-sm-4">
