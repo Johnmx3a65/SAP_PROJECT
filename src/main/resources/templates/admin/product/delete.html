@@ -1,7 +1,7 @@
 <main xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container body-content span=8 offset=2">
         <div class="well">
-            <form class="form-horizontal" th:action="@{/product/delete/{id}(id=${product.id})}" method="POST">
+            <form class="form-horizontal" th:action="@{/admin/products/delete/{id}(id=${product.id})}" method="POST">
                 <fieldset>
                     <legend>Delete Product</legend>
 
@@ -46,7 +46,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-4">
-                            <a class="btn btn-default" th:href="@{/product/{id}(id = ${product.id})}">Cancel</a>
+                            <a class="btn btn-default" th:href="@{/admin/products/}">Cancel</a>
                             <input type="submit" class="btn btn-danger" value="Delete"/>
                         </div>
                     </div>

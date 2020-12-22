@@ -1,7 +1,7 @@
 <main xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container body-content span=8 offset=2">
         <div class="well">
-            <form class="form-horizontal" th:action="@{/product/edit/{id}(id=${product.id})}" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal" th:action="@{/admin/products/edit/{id}(id=${product.id})}" method="POST" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Edit Product</legend>
 
@@ -61,7 +61,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-4">
-                            <a class="btn btn-default" th:href="@{/product/{id}(id = ${product.id})}">Cancel</a>
+                            <a class="btn btn-default" th:href="@{/admin/products/}">Cancel</a>
                             <input type="submit" class="btn btn-success" value="Edit"/>
                         </div>
                     </div>

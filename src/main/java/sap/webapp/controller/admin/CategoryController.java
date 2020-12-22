@@ -25,6 +25,7 @@ public class CategoryController {
     private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepository productRepository;
+
     @GetMapping("/")
     public String list(Model model){
         List<Category> categories = this.categoryRepository.findAll();

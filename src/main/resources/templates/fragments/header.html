@@ -17,11 +17,22 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a th:href="@{/admin/categories/}">Categories</a></li>
                             <li><a th:href="@{/admin/users/}">Users</a></li>
+                            <li><a th:href="@{/admin/products/}">Products</a></li>
                         </ul>
                     </li>
                     <li sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{/product/create}">
+                        <a th:href="@{/admin/users/register}">
+                            Register User
+                        </a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/admin/products/create}">
                             Create Product
+                        </a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/admin/categories/create}">
+                            Create Category
                         </a>
                     </li>
                     <li sec:authorize="hasRole('USER')">

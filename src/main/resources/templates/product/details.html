@@ -1,4 +1,4 @@
-<main xmlns:th="http://www.w3.org/1999/xhtml">
+<main xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="container body-content">
         <div class="row">
             <div class="col-md-12">
@@ -16,14 +16,7 @@
                     <footer>
 
                         <div class="pull-right">
-
-                            <th:block sec:authorize="isAuthenticated()" th:if="${user.isAdmin()}">
-                                <a class="btn btn-success btn-xs" th:href="@{/product/edit/{id}(id = ${product.id})}">Edit</a>
-                                <a class="btn btn-danger btn-xs" th:href="@{/product/delete/{id}(id = ${product.id})}">Delete</a>
-
-                            </th:block>
-
-                            <a class="btn btn-success btn-xs" th:href="@{/product/sell/{id}(id = ${product.id})}">buy </a>
+                            <a class="btn btn-success btn-xs" th:href="@{/product/sell/{id}(id = ${product.id})}" sec:authorize="hasRole('USER')" th:if="${isAuthor}">buy </a>
                             <a class="btn btn-default btn-xs" th:href="@{/}">back &raquo;</a>
                         </div>
                     </footer>
