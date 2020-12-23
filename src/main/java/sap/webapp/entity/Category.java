@@ -2,6 +2,8 @@ package sap.webapp.entity;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Entity
@@ -47,5 +49,19 @@ public class Category {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    public Set<Product> getProductsByCompany(User user){
+        Set<Product> newSet = new HashSet<>();
+        Product current;
+        try {
+            for(Iterator<Product> productIterator = products.iterator(); (current = productIterator.next()) != null; ){
+                if (current.getAuthor().equals(user)){
+                    newSet.add(current);
+                }
+            }
+        }catch (NoSuchElementException ignored){ }
+
+        return newSet;
     }
 }

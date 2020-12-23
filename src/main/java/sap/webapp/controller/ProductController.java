@@ -42,6 +42,7 @@ public class ProductController {
         if(!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
             UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User entityUser = this.userRepository.findByEmail(principal.getUsername());
+
             boolean isAuthor = entityUser.getId().equals(product.getAuthor().getId());
 
             model.addAttribute("isAuthor", isAuthor);

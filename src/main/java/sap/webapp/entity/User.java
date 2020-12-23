@@ -111,6 +111,11 @@ public class User {
     }
 
     @Transient
+    public boolean isUser(){
+        return this.getRoles().stream().allMatch(role -> role.getName().equals("ROLE_USER"));
+    }
+
+    @Transient
     public boolean isAuthor(Product product){
         return Objects.equals(this.getId(), product.getAuthor().getId());
     }
