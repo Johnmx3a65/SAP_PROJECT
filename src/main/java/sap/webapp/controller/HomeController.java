@@ -15,8 +15,7 @@ import sap.webapp.entity.User;
 import sap.webapp.repository.CategoryRepository;
 import sap.webapp.repository.UserRepository;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -28,7 +27,23 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model){
-        List<Category> categories = this.categoryRepository.findAll();
+
+        if(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken){
+            return "redirect:/login";
+        }
+
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User entityUser = this.userRepository.findByEmail(principal.getUsername());
+
+        Set<Category> categories = new HashSet<>();
+
+        try{
+            Product currentProduct;
+            for (Iterator<Product> categoryIterator = entityUser.getProducts().iterator(); (currentProduct = categoryIterator.next()) != null;){
+                categories.add(currentProduct.getCategory());
+            }
+        }catch (NoSuchElementException ignored){}
 
         model.addAttribute("view", "home/index");
         model.addAttribute("categories", categories);
