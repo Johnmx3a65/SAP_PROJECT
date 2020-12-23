@@ -33,19 +33,22 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public String details(Model model, @PathVariable Integer id){
+        if(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken){
+            return "redirect:/login";
+        }
+
         if(!this.productRepository.existsById(id)){
             return "redirect:/";
         }
 
         Product product = this.productRepository.getOne(id);
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User entityUser = this.userRepository.findByEmail(principal.getUsername());
 
-        if(!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
-            UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User entityUser = this.userRepository.findByEmail(principal.getUsername());
+        boolean isAuthor = entityUser.getId().equals(product.getAuthor().getId());
 
-            boolean isAuthor = entityUser.getId().equals(product.getAuthor().getId());
-
-            model.addAttribute("isAuthor", isAuthor);
+        if (!isAuthor){
+            return "redirect:/error/403";
         }
 
         model.addAttribute("product", product);
