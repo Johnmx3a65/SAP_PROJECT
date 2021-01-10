@@ -33,6 +33,7 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public String details(Model model, @PathVariable Integer id){
+
         if(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken){
             return "redirect:/login";
         }
@@ -51,6 +52,8 @@ public class ProductController {
             return "redirect:/error/403";
         }
 
+
+        model.addAttribute("isAvailable", product.getCurrentCount() > 0);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/details");
 

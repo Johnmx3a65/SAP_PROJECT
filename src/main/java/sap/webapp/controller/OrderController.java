@@ -45,6 +45,10 @@ public class OrderController {
             return "redirect:/error/403";
         }
 
+        if(product.getCurrentCount() <= 0){
+            return "redirect:/";
+        }
+
         model.addAttribute("product", product);
         model.addAttribute("view", "product/sell");
 
