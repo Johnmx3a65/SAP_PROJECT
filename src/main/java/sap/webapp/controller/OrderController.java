@@ -16,6 +16,7 @@ import sap.webapp.repository.CategoryRepository;
 import sap.webapp.repository.OrderRepository;
 import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.UserRepository;
+import sap.webapp.service.MailSendler;
 
 import java.util.Calendar;
 
@@ -27,6 +28,8 @@ public class OrderController {
     private OrderRepository orderRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MailSendler mailSendler;
 
     @GetMapping("product/sell/{id}")
     public String sell(Model model, @PathVariable Integer id){
@@ -65,7 +68,11 @@ public class OrderController {
         Product product = this.productRepository.getOne(id);
         product.setCurrentCount(product.getCurrentCount()-sellBindingModel.getQuantity());
 
-//        if(product.getCurrentCount() < )
+        if(product.getCurrentCount() <= product.getWarnCount()){
+            String message = "Dear " + product.getAuthor().getFullName().toUpperCase() + "!\n " +
+                    "Unfortunately, we want to inform you that a product called " + product.getTitle().toUpperCase() + " has reached a critical amount. We ask you to replenish the product stock";
+            mailSendler.send(product.getAuthor().getEmail(), "Critical Amount", message);
+        }
 
         Order order = new Order(product.getAuthor(), product, sellBindingModel.getQuantity(), Calendar.getInstance(),  sellBindingModel.getDestination(), sellBindingModel.getPhone());
 
