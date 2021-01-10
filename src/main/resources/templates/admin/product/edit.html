@@ -27,6 +27,13 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="col-sm-4 control-label" for="product_warn_count">Warning Count</label>
+                        <div class="col-sm-4 ">
+                            <input type="number" min="1" step="1" class="form-control" id="product_warn_count" placeholder="Count" name="warnCount" th:value="${product.warnCount}" required="required"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-sm-4 control-label" for="product_photo">Photo</label>
                         <div class="col-sm-4 ">
                             <input type="file"  class="form-control" id="product_photo" name="photo" value="${product.photo}" multiple accept="image/*,image/jpeg"/>

@@ -19,6 +19,8 @@ public class Product {
 
     private Integer currentCount;
 
+    private Integer warnCount;
+
     private String title;
 
     private String description;
@@ -32,9 +34,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(Double price,Integer currentCount, String title, String description, MultipartFile photo, User author, Category category) throws IOException {
+    public Product(Double price,Integer currentCount, Integer warnCount, String title, String description, MultipartFile photo, User author, Category category) throws IOException {
         this.price = price;
         this.currentCount = currentCount;
+        this.warnCount = warnCount;
         this.title = title;
         this.description = description;
         this.author = author;
@@ -68,6 +71,15 @@ public class Product {
 
     public void setCurrentCount(Integer currentCount) {
         this.currentCount = currentCount;
+    }
+
+    @Column(nullable = false)
+    public Integer getWarnCount() {
+        return warnCount;
+    }
+
+    public void setWarnCount(Integer warnCount) {
+        this.warnCount = warnCount;
     }
 
     @Column(nullable = false)

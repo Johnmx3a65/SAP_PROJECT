@@ -17,6 +17,9 @@ public class ProductBindingModel {
     private Integer currentCount;
 
     @NotNull
+    private Integer warnCount;
+
+    @NotNull
     private MultipartFile photo;
 
     private Integer categoryId;
@@ -70,6 +73,14 @@ public class ProductBindingModel {
 
     public void setCurrentCount(Integer currentCount) {
         this.currentCount = currentCount;
+    }
+
+    public Integer getWarnCount() {
+        return warnCount;
+    }
+
+    public void setWarnCount(Integer warnCount) {
+        this.warnCount = warnCount;
     }
 
     public MultipartFile getPhoto() {

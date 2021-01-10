@@ -65,6 +65,8 @@ public class OrderController {
         Product product = this.productRepository.getOne(id);
         product.setCurrentCount(product.getCurrentCount()-sellBindingModel.getQuantity());
 
+//        if(product.getCurrentCount() < )
+
         Order order = new Order(product.getAuthor(), product, sellBindingModel.getQuantity(), Calendar.getInstance(),  sellBindingModel.getDestination(), sellBindingModel.getPhone());
 
         this.productRepository.saveAndFlush(product);

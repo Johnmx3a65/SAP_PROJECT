@@ -71,18 +71,18 @@ public class AdminProductController {
         User userEntity = this.userRepository.getOne(productBindingModel.getUserId());
         Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
 
-        Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getCurrentCount(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity, category);
+        Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getCurrentCount(), productBindingModel.getWarnCount(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity, category);
 
         this.productRepository.saveAndFlush(productEntity);
 
-        return "redirect:admin/products/";
+        return "redirect:/admin/products/";
     }
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("isAuthenticated()")
     public String edit(Model model, @PathVariable Integer id){
         if(!this.productRepository.existsById(id)){
-            return "redirect:admin/products/";
+            return "redirect:/admin/products/";
         }
         Product product = this.productRepository.getOne(id);
 
@@ -108,7 +108,7 @@ public class AdminProductController {
     @PreAuthorize("isAuthenticated()")
     public String editProcess(ProductBindingModel productBindingModel, @PathVariable Integer id) throws IOException {
         if(!this.productRepository.existsById(id)){
-            return "redirect:admin/products/";
+            return "redirect:/admin/products/";
         }
 
         Product product = this.productRepository.getOne(id);
@@ -125,10 +125,11 @@ public class AdminProductController {
         product.setDescription(productBindingModel.getDescription());
         product.setCategory(category);
         product.setCurrentCount(productBindingModel.getCurrentCount());
+        product.setWarnCount(productBindingModel.getWarnCount());
 
         this.productRepository.saveAndFlush(product);
 
-        return "redirect:admin/products/";
+        return "redirect:/admin/products/";
     }
 
     @GetMapping("/delete/{id}")
@@ -136,7 +137,7 @@ public class AdminProductController {
     public String delete(Model model, @PathVariable Integer id){
 
         if(!this.productRepository.existsById(id)){
-            return "redirect:admin/products/";
+            return "redirect:/admin/products/";
         }
 
         Product product = this.productRepository.getOne(id);
@@ -152,13 +153,13 @@ public class AdminProductController {
     public String deleteProcess(@PathVariable Integer id){
 
         if(!this.productRepository.existsById(id)){
-            return "redirect:admin/products/";
+            return "redirect:/admin/products/";
         }
 
         Product product = this.productRepository.getOne(id);
 
         this.productRepository.delete(product);
 
-        return "redirect:admin/products/";
+        return "redirect:/admin/products/";
     }
 }
