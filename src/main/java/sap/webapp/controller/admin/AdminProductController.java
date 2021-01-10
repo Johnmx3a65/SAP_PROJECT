@@ -75,12 +75,7 @@ public class AdminProductController {
     @PreAuthorize("isAuthenticated()")
     public String createProcess(ProductBindingModel productBindingModel) throws IOException {
 
-        User userEntity = this.userRepository.getOne(productBindingModel.getUserId());
-        Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
-
-        Product productEntity = new Product(productBindingModel.getPrice(), productBindingModel.getCurrentCount(), productBindingModel.getWarnCount(), productBindingModel.getTitle(), productBindingModel.getDescription(), productBindingModel.getPhoto(), userEntity, category);
-
-        this.productRepository.saveAndFlush(productEntity);
+        shopService.createProduct(productBindingModel);
 
         return "redirect:/admin/products/";
     }
@@ -88,6 +83,7 @@ public class AdminProductController {
     @GetMapping("/edit/{id}")
     @PreAuthorize("isAuthenticated()")
     public String edit(Model model, @PathVariable Integer id){
+
         if(!this.productRepository.existsById(id)){
             return "redirect:/admin/products/";
         }
@@ -98,7 +94,7 @@ public class AdminProductController {
         List<User> users = new ArrayList<>();
 
         for(User user : this.userRepository.findAll()){
-            if(!user.getCompanyName().equals("admin")){
+            if(!shopService.userIsAdmin(user)){
                 users.add(user);
             }
         }
@@ -125,9 +121,11 @@ public class AdminProductController {
 
         product.setTitle(productBindingModel.getTitle());
         product.setPrice(productBindingModel.getPrice());
+
         if (!productBindingModel.getPhoto().isEmpty()){
             product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
         }
+
         product.setAuthor(user);
         product.setDescription(productBindingModel.getDescription());
         product.setCategory(category);

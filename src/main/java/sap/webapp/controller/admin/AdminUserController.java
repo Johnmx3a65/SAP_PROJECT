@@ -17,6 +17,7 @@ import sap.webapp.entity.User;
 import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.RoleRepository;
 import sap.webapp.repository.UserRepository;
+import sap.webapp.service.ShopService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +33,8 @@ public class AdminUserController {
     private RoleRepository roleRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ShopService shopService;
 
     @GetMapping("/register")
     public String register(Model model){
@@ -42,22 +45,12 @@ public class AdminUserController {
 
     @PostMapping("/register")
     public String registerProcess(UserBindingModel userBindingModel){
+
         if(!userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
             return "redirect:/admin/users/register";
         }
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-        User user = new User(userBindingModel.getEmail(),
-                userBindingModel.getFullName(),
-                userBindingModel.getCompanyName(),
-                bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
-
-        Role userRole = this.roleRepository.findByName("ROLE_USER");
-
-        user.addRole(userRole);
-
-        this.userRepository.saveAndFlush(user);
+        shopService.createUser(userBindingModel);
 
         return "redirect:/admin/users/";
     }
