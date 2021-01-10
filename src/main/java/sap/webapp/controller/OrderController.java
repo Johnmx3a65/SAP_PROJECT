@@ -1,6 +1,8 @@
 package sap.webapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import sap.webapp.binding.model.SellBindingModel;
 import sap.webapp.entity.Order;
 import sap.webapp.entity.Product;
+import sap.webapp.entity.User;
 import sap.webapp.repository.CategoryRepository;
 import sap.webapp.repository.OrderRepository;
 import sap.webapp.repository.ProductRepository;
@@ -22,6 +25,8 @@ public class OrderController {
     private ProductRepository productRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("product/sell/{id}")
     public String sell(Model model, @PathVariable Integer id){
@@ -30,7 +35,15 @@ public class OrderController {
             return "redirect:/";
         }
 
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User entityUser = this.userRepository.findByEmail(principal.getUsername());
+
         Product product = this.productRepository.getOne(id);
+
+        if(!entityUser.getProducts().contains(product)){
+            return "redirect:/error/403";
+        }
 
         model.addAttribute("product", product);
         model.addAttribute("view", "product/sell");
