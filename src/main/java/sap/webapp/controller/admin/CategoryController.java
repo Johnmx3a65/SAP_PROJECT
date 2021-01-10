@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
 import sap.webapp.binding.model.CategoryBindingModel;
 import sap.webapp.entity.Category;
-import sap.webapp.entity.Product;
 import sap.webapp.repository.CategoryRepository;
-import sap.webapp.repository.ProductRepository;
+import sap.webapp.service.CategoryService;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,7 +23,7 @@ public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private ProductRepository productRepository;
+    private CategoryService categoryService;
 
     @GetMapping("/")
     public String list(Model model){
@@ -40,6 +39,7 @@ public class CategoryController {
 
     @GetMapping("/create")
     public String create(Model model){
+
         model.addAttribute("view", "admin/category/create");
 
         return "base-layout";
@@ -50,8 +50,9 @@ public class CategoryController {
         if(StringUtils.isEmpty(categoryBindingModel.getName())){
             return "redirect:/admin/categories/create";
         }
-        Category category = new Category(categoryBindingModel.getName());
-        this.categoryRepository.saveAndFlush(category);
+
+        categoryService.createCategory(categoryBindingModel);
+
         return "redirect:/admin/categories/";
     }
 
@@ -69,15 +70,14 @@ public class CategoryController {
         return "base-layout";
     }
 
+    @PostMapping("/edit/{id}")
     public String editProcess(CategoryBindingModel categoryBindingModel, @PathVariable Integer id){
+
         if(!this.categoryRepository.existsById(id)){
             return "redirect:/admin/categories/";
         }
-        Category category = this.categoryRepository.getOne(id);
 
-        category.setName(categoryBindingModel.getName());
-
-        this.categoryRepository.saveAndFlush(category);
+        categoryService.editCategory(categoryBindingModel, id);
 
         return "redirect:/admin/categories/";
     }
@@ -102,13 +102,7 @@ public class CategoryController {
             return "redirect:/admin/categories/";
         }
 
-        Category category = this.categoryRepository.getOne(id);
-
-        for(Product product : category.getProducts()){
-            this.productRepository.delete(product);
-        }
-
-        this.categoryRepository.delete(category);
+        categoryService.deleteCategory(id);
 
         return "redirect:/admin/categories/";
     }

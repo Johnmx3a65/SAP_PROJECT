@@ -16,11 +16,10 @@ import sap.webapp.repository.CategoryRepository;
 import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.RoleRepository;
 import sap.webapp.repository.UserRepository;
-import sap.webapp.service.ShopService;
+import sap.webapp.service.ProductService;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,12 +34,11 @@ public class AdminProductController {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private ShopService shopService;
+    private ProductService productService;
 
     @GetMapping("/")
     public String list(Model model){
+
         List<Product> products = this.productRepository.findAll();
 
         products = products.stream().sorted(Comparator.comparingInt(Product::getId)).collect(Collectors.toList());
@@ -59,7 +57,7 @@ public class AdminProductController {
         List<User> users = new ArrayList<>();
 
         for(User user : this.userRepository.findAll()){
-            if(!shopService.userIsAdmin(user)){
+            if(!productService.userIsAdmin(user)){
                 users.add(user);
             }
         }
@@ -75,7 +73,7 @@ public class AdminProductController {
     @PreAuthorize("isAuthenticated()")
     public String createProcess(ProductBindingModel productBindingModel) throws IOException {
 
-        shopService.createProduct(productBindingModel);
+        productService.createProduct(productBindingModel);
 
         return "redirect:/admin/products/";
     }
@@ -87,6 +85,7 @@ public class AdminProductController {
         if(!this.productRepository.existsById(id)){
             return "redirect:/admin/products/";
         }
+
         Product product = this.productRepository.getOne(id);
 
         List<Category> categories = this.categoryRepository.findAll();
@@ -94,7 +93,7 @@ public class AdminProductController {
         List<User> users = new ArrayList<>();
 
         for(User user : this.userRepository.findAll()){
-            if(!shopService.userIsAdmin(user)){
+            if(!productService.userIsAdmin(user)){
                 users.add(user);
             }
         }
@@ -110,29 +109,12 @@ public class AdminProductController {
     @PostMapping("/edit/{id}")
     @PreAuthorize("isAuthenticated()")
     public String editProcess(ProductBindingModel productBindingModel, @PathVariable Integer id) throws IOException {
+
         if(!this.productRepository.existsById(id)){
             return "redirect:/admin/products/";
         }
 
-        Product product = this.productRepository.getOne(id);
-        Category category = this.categoryRepository.getOne(productBindingModel.getCategoryId());
-        User user = this.userRepository.getOne(productBindingModel.getUserId());
-
-
-        product.setTitle(productBindingModel.getTitle());
-        product.setPrice(productBindingModel.getPrice());
-
-        if (!productBindingModel.getPhoto().isEmpty()){
-            product.setPhotoBase64(Base64.getEncoder().encodeToString(productBindingModel.getPhoto().getBytes()));
-        }
-
-        product.setAuthor(user);
-        product.setDescription(productBindingModel.getDescription());
-        product.setCategory(category);
-        product.setCurrentCount(productBindingModel.getCurrentCount());
-        product.setWarnCount(productBindingModel.getWarnCount());
-
-        this.productRepository.saveAndFlush(product);
+        productService.editProduct(productBindingModel, id);
 
         return "redirect:/admin/products/";
     }
@@ -161,9 +143,7 @@ public class AdminProductController {
             return "redirect:/admin/products/";
         }
 
-        Product product = this.productRepository.getOne(id);
-
-        this.productRepository.delete(product);
+        productService.deleteProduct(id);
 
         return "redirect:/admin/products/";
     }

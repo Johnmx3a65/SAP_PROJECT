@@ -1,27 +1,21 @@
 package sap.webapp.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.thymeleaf.util.StringUtils;
 import sap.webapp.binding.model.UserBindingModel;
 import sap.webapp.binding.model.UserEditBindingModel;
-import sap.webapp.entity.Product;
 import sap.webapp.entity.Role;
 import sap.webapp.entity.User;
-import sap.webapp.repository.ProductRepository;
 import sap.webapp.repository.RoleRepository;
 import sap.webapp.repository.UserRepository;
-import sap.webapp.service.ShopService;
+import sap.webapp.service.UserService;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -32,9 +26,7 @@ public class AdminUserController {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private ShopService shopService;
+    private UserService userService;
 
     @GetMapping("/register")
     public String register(Model model){
@@ -50,7 +42,7 @@ public class AdminUserController {
             return "redirect:/admin/users/register";
         }
 
-        shopService.createUser(userBindingModel);
+        userService.createUser(userBindingModel);
 
         return "redirect:/admin/users/";
     }
@@ -86,28 +78,8 @@ public class AdminUserController {
         if(!this.userRepository.existsById(id)){
             return "redirect:/admin/users";
         }
-        User user = this.userRepository.getOne(id);
 
-        if(!StringUtils.isEmpty(userBindingModel.getPassword()) && !StringUtils.isEmpty(userBindingModel.getConfirmPassword())){
-            if(userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
-                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-                user.setPassword(bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
-            }
-        }
-        user.setFullName(userBindingModel.getFullName());
-        user.setCompanyName(userBindingModel.getCompanyName());
-        user.setEmail(userBindingModel.getEmail());
-
-        Set<Role> roles = new HashSet<>();
-
-        for (Integer roleId : userBindingModel.getRoles()){
-            roles.add(this.roleRepository.getOne(roleId));
-        }
-
-        user.setRoles(roles);
-
-        this.userRepository.saveAndFlush(user);
+        userService.editUser(userBindingModel, id);
 
         return "redirect:/admin/users/";
     }
@@ -131,13 +103,8 @@ public class AdminUserController {
         if(!this.userRepository.existsById(id)){
             return "redirect:/admin/users/";
         }
-        User user = this.userRepository.getOne(id);
 
-        for(Product product : user.getProducts()){
-            this.productRepository.delete(product);
-        }
-
-        this.userRepository.delete(user);
+        userService.deleteUser(id);
 
         return "redirect:/admin/users/";
     }
