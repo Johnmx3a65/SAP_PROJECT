@@ -1,11 +1,29 @@
-<main xmlns:th="http://www.w3.org/1999/xhtml">
+<main xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="container body-content">
+        <div class="row" sec:authorize="hasRole('ADMIN')">
+            <div class="col-md-6">
+                <header>
+                    <h2>
+                        <a th:href="@{/admin/categories/}">Categories</a>
+                    </h2>
+                </header>
+                <header>
+                    <h2>
+                        <a th:href="@{/admin/users/}">Users</a>
+                    </h2>
+                </header>
+                <header>
+                    <h2>
+                        <a th:href="@{/admin/products/}">Products</a>
+                    </h2>
+                </header>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-6" th:each="category : ${categories}">
                 <header>
                     <h2>
-                        <a th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name}">
-                        </a>
+                        <a th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name}"></a>
                     </h2>
                 </header>
             </div>
