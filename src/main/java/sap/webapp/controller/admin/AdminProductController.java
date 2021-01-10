@@ -14,7 +14,9 @@ import sap.webapp.entity.Product;
 import sap.webapp.entity.User;
 import sap.webapp.repository.CategoryRepository;
 import sap.webapp.repository.ProductRepository;
+import sap.webapp.repository.RoleRepository;
 import sap.webapp.repository.UserRepository;
+import sap.webapp.service.ShopService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +34,10 @@ public class AdminProductController {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private ShopService shopService;
 
     @GetMapping("/")
     public String list(Model model){
@@ -48,11 +54,12 @@ public class AdminProductController {
     @GetMapping("/create")
     @PreAuthorize("isAuthenticated()")
     public String create(Model model){
+
         List<Category> categories = this.categoryRepository.findAll();
         List<User> users = new ArrayList<>();
 
         for(User user : this.userRepository.findAll()){
-            if(!user.getCompanyName().equals("admin")){
+            if(!shopService.userIsAdmin(user)){
                 users.add(user);
             }
         }
