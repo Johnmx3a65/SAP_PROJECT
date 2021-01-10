@@ -12,25 +12,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown" sec:authorize="hasRole('ADMIN')">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a th:href="@{/admin/categories/}">Categories</a></li>
-                            <li><a th:href="@{/admin/users/}">Users</a></li>
-                            <li><a th:href="@{/admin/products/}">Products</a></li>
-                        </ul>
-                    </li>
-                    <li sec:authorize="hasRole('ADMIN')">
+
+                    <li sec:authorize="hasAnyRole('ADMIN', 'SUPER')">
                         <a th:href="@{/admin/users/register}">
                             Register User
                         </a>
                     </li>
-                    <li sec:authorize="hasRole('ADMIN')">
+                    <li sec:authorize="hasAnyRole('ADMIN', 'SUPER')">
                         <a th:href="@{/admin/products/create}">
                             Create Product
                         </a>
                     </li>
-                    <li sec:authorize="hasRole('ADMIN')">
+                    <li sec:authorize="hasAnyRole('ADMIN', 'SUPER')">
                         <a th:href="@{/admin/categories/create}">
                             Create Category
                         </a>

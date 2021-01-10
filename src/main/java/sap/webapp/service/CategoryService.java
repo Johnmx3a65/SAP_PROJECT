@@ -11,6 +11,7 @@ public class CategoryService extends ShopSuperService{
     public void createCategory(CategoryBindingModel categoryBindingModel){
 
         Category category = new Category(categoryBindingModel.getName());
+
         this.categoryRepository.saveAndFlush(category);
     }
 
@@ -23,6 +24,7 @@ public class CategoryService extends ShopSuperService{
         this.categoryRepository.saveAndFlush(category);
 
     }
+
     public void deleteCategory(Integer id){
 
         Category category = this.categoryRepository.getOne(id);
