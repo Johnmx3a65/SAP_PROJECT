@@ -65,7 +65,9 @@ public class AdminUserController {
 
         User user = this.userRepository.getOne(id);
         List<Role> roles = this.roleRepository.findAll();
-
+        roles.remove(this.roleRepository.findByName("ROLE_SUPER"));
+        
+        model.addAttribute("isNotSuper", !userService.isSuper(user));
         model.addAttribute("user", user);
         model.addAttribute("roles", roles);
         model.addAttribute("view", "admin/user/edit");

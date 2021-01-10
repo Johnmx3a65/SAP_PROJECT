@@ -3,11 +3,13 @@ package sap.webapp.service;
 import org.springframework.stereotype.Service;
 import sap.webapp.binding.model.ProductBindingModel;
 import sap.webapp.entity.Category;
+import sap.webapp.entity.Order;
 import sap.webapp.entity.Product;
 import sap.webapp.entity.User;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 public class ProductService extends ShopSuperService{
@@ -51,6 +53,18 @@ public class ProductService extends ShopSuperService{
 
         Product product = this.productRepository.getOne(id);
 
+        deleteOrdersByProduct(product);
+
         this.productRepository.delete(product);
+    }
+
+    private void deleteOrdersByProduct(Product product){
+
+        List<Order> orders = this.orderRepository.findAll();
+        for(Order order : orders){
+            if (order.getProduct().equals(product)){
+                this.orderRepository.delete(order);
+            }
+        }
     }
 }

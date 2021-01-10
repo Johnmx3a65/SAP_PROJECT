@@ -1,5 +1,7 @@
 package sap.webapp.service;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
@@ -66,5 +68,9 @@ public class UserService extends ShopSuperService{
         }
 
         this.userRepository.delete(user);
+    }
+
+    public boolean isSuper(User user){
+        return user.getRoles().contains(roleRepository.findByName("ROLE_SUPER"));
     }
 }
