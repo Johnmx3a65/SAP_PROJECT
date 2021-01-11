@@ -4,7 +4,8 @@
             <div class="col-md-12">
                 <product>
                     <header>
-                        <img id="preview-image" class="round" th:src="@{'data:image/jpeg;base64,'+${product.photoBase64}}" alt=""/>
+                        <img id="preview-image" class="round"
+                             th:src="@{'data:image/jpeg;base64,'+${product.photoBase64}}" alt=""/>
                         <h2 th:text="${product.title}"></h2>
                         <p  th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT') + 'лв.'}"></p>
                     </header>
@@ -14,7 +15,6 @@
                     <small class="author" th:text="${product.author.companyName}"></small>
 
                     <footer>
-
                         <div class="pull-right">
                             <a class="btn btn-success btn-xs" th:href="@{/product/sell/{id}(id = ${product.id})}" sec:authorize="hasRole('USER')" th:if="${isAvailable}">buy </a>
                             <a class="btn btn-default btn-xs" th:href="@{/}">back &raquo;</a>

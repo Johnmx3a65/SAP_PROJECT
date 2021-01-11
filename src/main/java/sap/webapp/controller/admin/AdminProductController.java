@@ -110,11 +110,9 @@ public class AdminProductController {
     @PreAuthorize("isAuthenticated()")
     public String editProcess(ProductBindingModel productBindingModel, @PathVariable Integer id) throws IOException {
 
-        if(!this.productRepository.existsById(id)){
-            return "redirect:/admin/products/";
+        if(this.productRepository.existsById(id)){
+            productService.editProduct(productBindingModel, id);
         }
-
-        productService.editProduct(productBindingModel, id);
 
         return "redirect:/admin/products/";
     }
@@ -139,11 +137,9 @@ public class AdminProductController {
     @PreAuthorize("isAuthenticated()")
     public String deleteProcess(@PathVariable Integer id){
 
-        if(!this.productRepository.existsById(id)){
-            return "redirect:/admin/products/";
+        if(this.productRepository.existsById(id)){
+            productService.deleteProduct(id);
         }
-
-        productService.deleteProduct(id);
 
         return "redirect:/admin/products/";
     }

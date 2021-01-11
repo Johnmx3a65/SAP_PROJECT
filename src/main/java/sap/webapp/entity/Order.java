@@ -19,18 +19,18 @@ public class Order {
 
     private String destination;
 
-    private String customerNumber;
+    private String customerPhone;
 
     public Order() {
     }
 
-    public Order(User company, Product product, Integer quantity, Calendar orderDate, String destination, String customerNumber) {
+    public Order(User company, Product product, Integer quantity, Calendar orderDate, String destination, String customerPhone) {
         this.company =  company;
         this.product = product;
         this.quantity = quantity;
         this.orderDate = orderDate;
         this.destination = destination;
-        this.customerNumber = customerNumber;
+        this.customerPhone = customerPhone;
     }
 
     @Id
@@ -92,11 +92,11 @@ public class Order {
     }
 
     @Column(nullable = false)
-    public String getCustomerNumber() {
-        return customerNumber;
+    public String getCustomerPhone() {
+        return customerPhone;
     }
 
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
+    public void setCustomerPhone(String customerNumber) {
+        this.customerPhone = customerNumber;
     }
 }

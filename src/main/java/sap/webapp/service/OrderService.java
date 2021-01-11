@@ -33,4 +33,30 @@ public class OrderService extends ShopSuperService{
                 "Unfortunately, we want to inform you that a product called " + product.getTitle().toUpperCase() + " has reached a critical amount. We ask you to replenish the product stock";
         mailSendler.send(product.getAuthor().getEmail(), "Critical Amount", message);
     }
+
+    public void editOrder(SellBindingModel sellBindingModel, Integer id) {
+
+        Order order = this.orderRepository.getOne(id);
+
+        Integer quantityDiff = order.getQuantity() - sellBindingModel.getQuantity();
+        order.getProduct().setCurrentCount(order.getProduct().getCurrentCount() + quantityDiff);
+
+        if(order.getProduct().getCurrentCount() <= order.getProduct().getWarnCount()){
+            sendWarnMessage(order.getProduct());
+        }
+
+        order.setQuantity(sellBindingModel.getQuantity());
+        order.setDestination(sellBindingModel.getDestination());
+        order.setCustomerPhone(sellBindingModel.getPhone());
+
+        this.orderRepository.saveAndFlush(order);
+    }
+
+    public void deleteOrder(Integer id) {
+
+        Order order = this.orderRepository.getOne(id);
+        order.getProduct().setCurrentCount(order.getProduct().getCurrentCount() + order.getQuantity());
+
+        this.orderRepository.delete(order);
+    }
 }

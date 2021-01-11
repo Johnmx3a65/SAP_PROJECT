@@ -12,6 +12,7 @@
                         <th>Product Price</th>
                         <th>Sold Quantity</th>
                         <th>Total Profit</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,6 +23,10 @@
                         <td th:text="${order.product.price}"></td>
                         <td th:text="${order.quantity}"></td>
                         <td th:text="${order.quantity * order.product.price}"></td>
+                        <td>
+                            <a th:href="@{/order/edit/{id}(id=${order.id})}">Edit</a>
+                            <a th:href="@{/order/delete/{id}(id=${order.id})}">Delete</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
