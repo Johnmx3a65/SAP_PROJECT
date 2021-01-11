@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login_error", method = RequestMethod.GET)
-    public String logoutPage(Model model){
+    public String loginErrorPage(Model model){
 
         model.addAttribute("isErrorLogIn", true);
         model.addAttribute("view", "user/login");
