@@ -1,6 +1,8 @@
 package sap.webapp.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import sap.webapp.repository.RoleRepository;
 import sap.webapp.repository.UserRepository;
 import sap.webapp.service.UserService;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 @Controller
@@ -66,10 +69,18 @@ public class AdminUserController {
         User user = this.userRepository.getOne(id);
         List<Role> roles = this.roleRepository.findAll();
         roles.remove(this.roleRepository.findByName("ROLE_SUPER"));
-        
-        model.addAttribute("isNotSuper", !userService.isSuper(user));
+
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = this.userRepository.findByEmail(principal.getUsername());
+
+        boolean conditionForRolesView = !(userService.isSuper(user) || currentUser.equals(user));
+        model.addAttribute("isNotSuperAndNotCurrent", conditionForRolesView);
         model.addAttribute("user", user);
-        model.addAttribute("roles", roles);
+        if (!currentUser.equals(user))
+        {
+            model.addAttribute("roles", roles);
+        }
+
         model.addAttribute("view", "admin/user/edit");
 
         return "base-layout";
