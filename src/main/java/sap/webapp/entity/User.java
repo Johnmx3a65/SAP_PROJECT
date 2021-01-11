@@ -107,7 +107,7 @@ public class User {
 
     @Transient
     public boolean isAdmin(){
-        return this.getRoles().stream().allMatch(role -> role.getName().equals("ROLE_ADMIN"));
+        return this.getRoles().stream().allMatch(role -> role.getName().equals("ROLE_ADMIN") || role.getName().equals("ROLE_SUPER"));
     }
 
     @Transient
