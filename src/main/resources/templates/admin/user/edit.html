@@ -49,7 +49,7 @@
                         <label class="col-sm-4 control-label" for="roles">Roles</label>
                         <div class="col-sm-6">
                             <th:block th:each="role : ${roles}">
-                                <input id="roles" type="checkbox" name="roles" th:value="${role.id}" th:text="${role.getSimpleName()}" th:checked="${user.roles.contains(role)}"/>
+                                <input id="roles" type="radio" name="roles" th:value="${role.id}" th:text="${role.getSimpleName()}" th:checked="${user.roles.contains(role)}"/>
                                 <br/>
                             </th:block>
                         </div>
